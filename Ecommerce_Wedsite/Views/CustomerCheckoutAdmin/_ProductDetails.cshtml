@@ -1,0 +1,89 @@
+﻿@model AllLayout
+<!--Cách vận hành mở customer checkout -> xem chỉ tiết -> load sản phẩm hiện ở đây lên (Partial View)->
+<link href="~/css/idtable.css" rel="stylesheet" type="text/css" media="all" /> <!--Chạy được rồi mà chỉnh lại cho đẹp-->
+
+<div class="container px-3 my-5 clearfix" id="idtable" style="margin-left: inherit;">
+    <!-- Shopping cart table -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Details display</h2>
+            <button type="button" class="close" onclick="CloseTable()" style="position: absolute; top: 10px; right: 20px; font-size: 24px;">&times;</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="max-height: 350px;">
+                <table class="table table-bordered m-0">
+                    <thead>
+                        <tr>
+                            <!-- Set columns width -->
+                            <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details</th>
+                            <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
+                            <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
+                            <th class="text-right py-3 px-4" style="width: 100px;">Product Type Id</th>
+                            <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th>
+                        </tr>
+                    </thead>
+                    <tbody style="">
+                        @if (Model != null)
+                        {
+                            decimal n = 0;
+                            var qty = 0;
+                            // có thể dùng chung viewmodel, nhưng view sẽ hiện khác nhau tùy service trong controller.
+                            @foreach (var item in Model.productcheckout_ViewModels.productcheckout)
+                            {
+                                <tr>
+                                    <td class="p-4">
+                                        <div class="media align-items-center">
+                                            <!--Nên có hình ảnh sản phẩm-->
+                                            <img src="@item.ProductCheckout_Img" class="d-block ui-w-40 ui-bordered mr-4" alt="">
+                                            <div class="media-body">
+                                                <a href="#" class="d-block text-dark">@item.ProductCheckout_Name</a>
+                                                <small>
+                                                    <span class="text-muted">Color:</span>
+                                                    <span class="ui-product-color ui-product-color-sm align-text-bottom" style="background:#e81e2c;"></span> &nbsp;
+                                                    @* <span class="text-muted">Size: </span> EU 37 &nbsp; *@
+                                                    <span class="text-muted">Size: </span> # Size
+                                                    <span class="text-muted">Ships from: </span> # Manufacture
+                                                    <span class="text-muted">Id: </span> @item.ProductCheckout_Id
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right font-weight-semibold align-middle p-4">@item.ProductCheckout_Price.000đ</td>
+                                    <td class="align-middle p-4"><input type="text" class="form-control text-center" value="@item.ProductCheckout_Quantity" readonly></td>
+                                    <td class="text-right font-weight-semibold align-middle p-4">#Type</td>
+                                        
+                                </tr>
+                                n += item.ProductCheckout_Price;
+                                qty += item.ProductCheckout_Quantity;
+                            }
+                            var amountInVND = n * 1000;
+                            // Định dạng số tiền theo kiểu tiền tệ Việt Nam (VND)
+                            var formattedAmount = amountInVND.ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + "đ";
+                            <tr>
+                                <td class="p-4">
+                                    Tổng kết
+                                </td>
+
+                                <td class="text-right font-weight-semibold align-middle p-4">@formattedAmount</td>
+                                <td class="align-middle p-4"><input type="text" class="form-control text-center" value="@qty" readonly></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- / Shopping cart table -->
+
+            <div class="float-right">
+                <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" onclick="CloseTable()">Back to table</button>
+                <button type="button" class="btn btn-lg btn-primary mt-2" id="sendBtn" onclick="CloseTable()">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function CloseTable() {
+        document.querySelector('.idtable').style.display = 'none';
+    }
+</script>

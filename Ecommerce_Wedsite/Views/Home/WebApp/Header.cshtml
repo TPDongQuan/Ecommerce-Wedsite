@@ -1,0 +1,342 @@
+﻿<!--Đổ dữ liệu vào model ...-->
+<!--Luôn nhận biết đường truyền dữ liệu của mình, vd: để lấy 1 list nhỏ
+    -   Gọi từ 1 model Lớn nhất (chứa các model nhỏ hơn)
+    -   Gọi "." dến các model nhỏ hơn
+    -   Gọi "." tiếp để lấy các danh sách nhỏ nữa (bên trong model nhỏ)
+    => AllLayout.header_ViewModel.headerLV1. (... nếu có thêm)
+    Lưu ý: Phải gọi đúng tên model lớn -> model nhỏ (vì 1 model lớn chứa nhiều model nhỏ khác nhau)
+-->
+@model AllLayout
+<!--IEnumerable để tạo list-->
+
+<header>
+@if (Model != null)
+{
+    <div class="header-container">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 z-indexlogo">
+                <!-- Header Logo -->
+                <div class="logo">
+                    <a title="Website thương mại điện tử" href="/">
+                        <img loading="lazy" alt="Mew Nature" src="/img/Logo/logoheader.png">
+                    </a>
+                </div>
+                <!-- mobile-menu -->
+                <div class="hidden-desktop" id="mobile-menu">
+                    <div class="navmenu">
+                        <div class="menutop">
+                            <a href="#nav-mobile" title="Website thương mai điện tử">
+                                <div class="toggle">
+                                    <div class="line_mn">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--End mobile-menu -->
+                <div class="l_o_mb hidden-lg hidden-md">
+                    <img loading="lazy" alt="Mew Nature" src="//bizweb.dktcdn.net/100/364/767/themes/737174/assets/user.png?1676649124511" class="cl_lg">
+                    <div class="box_log mb_cl">
+                        <div class="login">
+                            <a href="/userloginpage">Đăng nhập</a>
+                        </div>
+                        <div class="login">
+                            <a href="/userregisterpage">Đăng ký</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-12 mobi_bt">
+                <div class="search-box">
+                    <form method="get" id="search_mini_form" class="search-box">
+                        <!--value=Model: để hiện giá trị lưu từ model vào-->
+                        <input class="change_pl" style="border-radius:20px; width:350px; height:34px;" placeholder="Tìm kiếm..." value="@Model.sort_ViewModels.proname" maxlength="170" id="sortname" >
+                        <a href="#" onclick="SortName()">Tìm kiếm</a>
+                        <a href="#" class="fa fa-microphone" style="font-size:24px; padding-left: 8px;" onclick="VoiceSearch()"></a>
+                    </form>
+                    <div class="fix-cart">
+                        <div class="l_o hidden-xs hidden-sm">
+                                <img loading="lazy" alt="Mew Nature" src="//bizweb.dktcdn.net/100/364/767/themes/737174/assets/user.png?1676649124511">
+                                
+                            <div class="box_log" id="login">
+                                <div class="login">
+                                    <a href="/userloginpage">Đăng nhập</a>
+                                </div>
+                                <div class="res">
+                                    <a href="/userregisterpage">Đăng ký</a>
+                                </div>
+                            </div>
+                            <div class="box_log">
+                                <div class="res">
+                                    <a href="#" id="webname">
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-cart-contain pull-right">
+                            <!-- Top Cart -->
+                            <div class="mini-cart">
+                                <div class="basket dropdown-toggle">
+                                    <a href="/cart" title="Giỏ hàng">
+                                        <img loading="lazy" src="//bizweb.dktcdn.net/100/364/767/themes/737174/assets/cart.png?1676649124511" alt="Mew Nature">
+                                        <div class="cart-box">
+                                            <span id="cart-total">
+                                                <b class="count_item_pr" id="countcart">0</b>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div style="padding: 4px 0;">
+                                    <div style="display: none;" class="top-cart-content arrow_box">
+                                        <ul id="cart-sidebar" class="mini-products-list" style="min-width: 350px; overflow-y:auto;">
+                                            <ul id="popupcartul" class="mini-products-list">
+                                                <li id="totalcart" value="0">
+                                                    Giỏ hàng trống...
+                                                </li>
+                                                <li id="btncart">
+                                                    
+                                                </li>
+                                                <li id="totalnum">
+
+                                                </li>
+                                            </ul>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mb0">
+                    <div class="nav-inner clearfix">
+                        @* <ul id="nav" class="hidden-xs hidden-sm remove_html nav_main"> *@
+                        <ul id="nav" class="menu-items">
+                            <!--code logic tiep cho 2 list-->
+                            
+                                @foreach (var item in Model.headerandfooter_ViewModels.headermain)
+                                {
+                                    @if(item.Header_HTML == 1)
+                                    {
+                                        <li class="level0 parent">
+                                            <a href="~/@item.HeaderAction">
+                                                <span>
+                                                    @item.Header_Title
+                                                </span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (item.Header_HTML == 3) // nếu có header con và dạng html = 3. Có sub header nếu cần ảnh:
+                                    {
+                                        <li>
+                                            <a href="~/@item.HeaderAction" class="menu-item"><span>@item.Header_Title</span></a>
+                                            <div class="mega-menu">
+                                                <div class="content">
+                                                    @* <div class="col">
+                                                        <section>
+                                                            <h2>Featured 1</h2>
+                                                            <a href="#" class="img-wrapper">
+                                                                <span class="img">
+                                                                    <img loading="lazy" src="https://picsum.photos/400?random=1"
+                                                                         alt="Random Image" />
+                                                                </span>
+                                                            </a>
+                                                            <p>Lorem ipsum dolor sit amet.</p>
+                                                        </section>
+                                                    </div>
+                                                    <div class="col">
+                                                        <section>
+                                                            <h2>Featured 1</h2>
+                                                            <a href="#" class="img-wrapper">
+                                                                <span class="img">
+                                                                    <img loading="lazy" src="https://picsum.photos/400?random=1"
+                                                                         alt="Random Image" />
+                                                                </span>
+                                                            </a>
+                                                            <p>Lorem ipsum dolor sit amet.</p>
+                                                        </section>
+                                                    </div>
+                                                    <div class="col">
+                                                        <section>
+                                                            <h2>Featured 1</h2>
+                                                            <a href="#" class="img-wrapper">
+                                                                <span class="img">
+                                                                    <img loading="lazy" src="https://picsum.photos/400?random=1"
+                                                                         alt="Random Image" />
+                                                                </span>
+                                                            </a>
+                                                            <p>Lorem ipsum dolor sit amet.</p>
+                                                        </section>
+                                                    </div>
+                                                    <div class="col">
+                                                        <section>
+                                                            <h2>Featured 1</h2>
+                                                            <a href="#" class="img-wrapper">
+                                                                <span class="img">
+                                                                    <img loading="lazy" src="https://picsum.photos/400?random=1"
+                                                                         alt="Random Image" />
+                                                                </span>
+                                                            </a>
+                                                            <p>Lorem ipsum dolor sit amet.</p>
+                                                        </section>
+                                                    </div> *@
+                                                    @foreach(var item2 in Model.subheader_ViewModels.subheaderproducttype)
+                                                    {
+                                                        if(item.Header_Id == item2.Header_Id) // nếu id header nó là Product
+                                                        {
+                                                            <div class="col">
+                                                                <section>
+                                                                    <h2>@item2.ProductType_Name</h2>
+                                                                    <a href="#" class="img-wrapper">
+                                                                        <span class="img">
+                                                                            <img loading="lazy" src="@item2.ProductType_Img"
+                                                                                 alt="Random Image" />
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="mega-links">
+                                                                        @foreach (var item3 in Model.subheader_ViewModels.subheaderproduct)
+                                                                        {
+                                                                            if(item3.ProductType_Id == item2.ProductType_Id)
+                                                                            {
+                                                                                <!--Sửa lại đường dẫn trong db (~/...) hoặc:-->
+                                                                               <li class="megali"><a href="~/productdetail/@item3.Product_Href">@item3.Product_Name</a></li>
+                                                                            } 
+                                                                        }
+                                                                        @* <li><a href="#">Item 1</a></li> Phải có item trước thì mới có thanh dọc*@
+                                                                    </ul>
+                                                                </section>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    }
+                                    @if(item.Header_HTML == 2)
+                                    {
+                                        <li>
+                                            <a href="~/@item.HeaderAction" class="menu-item"><span>@item.Header_Title</span></a>
+                                            <div class="mega-menu blog">
+                                                <div class="content">
+                                                    @* <div class="col">
+                                                        <a href="#" class="img-wrapper">
+                                                            <span class="img">
+                                                                <img src="https://picsum.photos/400?random=2"
+                                                                     alt="Random Image" />
+                                                            </span>
+                                                        </a>
+                                                        <h2>Title</h2>
+                                                        <a href="#" class="read-more">read more...</a>
+                                                    </div> *@
+                                                    @foreach (var item2 in Model.subheader_ViewModels.subheadernewscate)
+                                                    {
+                                                        if (item.Header_Id == item2.Header_Id) // nếu id header nó là Product
+                                                        {
+                                                            <div class="col">
+                                                                <a href="/News" class="img-wrapper">
+                                                                    <span class="img">
+                                                                        <img loading="lazy" src="@item2.NewsCate_img"
+                                                                             alt="Random Image" />
+                                                                    </span>
+                                                                </a>
+                                                                <h2>@item2.NewsCate_Name</h2>
+                                                                <a href="/News" class="read-more">Click here to read more...</a>
+                                                            </div>
+                                                        }    
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    @* <li class="level0 parent drop-down">
+                                        <a href="~/@item.HeaderAction">
+                                            <span>
+                                                @item.Header_Title
+                                                <ul class="level1" style="display: none;">
+                                                    @foreach (var item1 in Model.headerandfooter_ViewModels.header_LV2)
+                                                    {
+                                                        if (item1.HeaderParent_Id == item.Header_Id)
+                                                        {
+                                                            <!--Nếu title nào có id cha = id gốc => là con của id gốc -->
+                                                            <li class="level1 parent">
+                                                                <a asp-controller="Home" asp-action="@item.HeaderAction"><span>@item1.Header_Title</span></a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </span>
+                                        </a>
+                                    </li> *@
+                                }
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
+</header>
+    <script>
+        // Chạy được Voice Search:
+        function VoiceSearch() {
+            var proname = document.getElementById("sortname");
+            var speech = true;
+            const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+            const recog = new SpeechRecognition();
+            recog.interimResults = true;
+            recog.addEventListener('result', e => {
+                const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                proname.value = transcript;
+            })
+            if(speech == true)
+            {
+                recog.start();
+            }
+        }
+
+
+	    // Vấn để: là chưa search loại 1 mình đc và Chưa search ở bên ngoài trang Home đc:
+        //Func Chạy chỉ chạy cho thanh tìm kiếm thôi :
+        function SortName() {    
+		    var proname = document.getElementById("sortname").value; //lấy giá trị khi gõ vào ô tìm kiếm
+            if(proname != ""){ 
+		        var page = 1; // lấy đỡ là 1
+		        var orderby = 1; 
+                var category = 0; // tìm kiếm k cần category == 0
+                return sort(page, orderby, proname, category);
+                /*
+                    -   Cách lưu vào value của input tìm kiếm: chỉ cần gọi Model.sort_ViewModels.proname là đủ
+                    -   Vì bên model đã lưu tên biến này rồi, chỉ cần gọi ra, dùng, lưu lại cho view thôi.
+                */
+            }
+            return; // nếu k gõ thì k chạy
+	    }
+
+        function WebName() {
+            if (getCookie("webname") != "") {
+                var logintag = document.getElementById("login");
+                logintag.style.display = "none";
+                var webname = document.getElementById("webname");
+                webname.textContent = getCookie("webname");
+            }
+        }
+
+        $(document).ready(function () {
+        setTimeout("WebName()", 500);
+        });
+
+    </script>
+    

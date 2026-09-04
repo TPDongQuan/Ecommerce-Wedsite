@@ -1,0 +1,23 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Local-only configuration (contains machine-specific / potentially sensitive settings)
+appsettings.Development.json
+appsettings.*.local.json
+appsettings.production.json
+
+# Environment variables / secrets
+.env
+.env.*
+*.pfx
+*.key
+
+# OS files
+Thumbs.db
+.DS_Store

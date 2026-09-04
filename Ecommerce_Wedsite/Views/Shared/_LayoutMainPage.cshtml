@@ -1,0 +1,74 @@
+﻿@model AllLayout
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <!-- Start of Async Drift Code -->
+        <!-- End of Async Drift Code -->
+        <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>
+            Tree
+        </title>
+    
+        <meta name="description" content="">
+
+        <meta name="keywords" content="Mew Nature, mew-nature.mysapo.net" />
+        <link rel="canonical" href="https://mew-nature.mysapo.net/" />
+        <meta name='revisit-after' content='1 days' />
+        <meta name="robots" content="noodp,index,follow" />
+        <link rel="shortcut icon" href="/img/Logo/favicon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--Icon file-->
+
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Mew Nature">
+        <meta property="og:image" content="http://bizweb.dktcdn.net/100/364/767/themes/737174/assets/logo.png?1676649124511">
+        <meta property="og:image:secure_url" content="https://bizweb.dktcdn.net/100/364/767/themes/737174/assets/logo.png?1676649124511">
+
+        <meta property="og:description" content="">
+        <meta property="og:url" content="https://mew-nature.mysapo.net/">
+        <meta property="og:site_name" content="Mew Nature">
+
+        <link rel="stylesheet" href="~/css/header3.css" />
+        <link rel="stylesheet" href="~/css/videoad2.css" />
+
+        <!--Phiên bản boostrap min optional:-->
+       @*  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> *@
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
+        <link rel="preload" as="style" type="text/css" href="~/bizweb.dktcdn.net/themes/bootstrap_css.scss.css"> 
+        <link rel="preload" as="style" type="text/css" href="~/bizweb.dktcdn.net/themes/mewint.css">
+        <link rel="preload" as="style" type="text/css" href="~/bizweb.dktcdn.net/themes/owlcarousel.scss.css">
+        <link href="~/bizweb.dktcdn.net/themes/bootstrap_css.scss.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/mewint.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/owlcarousel.scss.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/blogmate.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/collection.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/swatch.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/bizweb.dktcdn.net/themes/product.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/css/checkout.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="~/css/floatads.css" rel="stylesheet" type="text/css" media="all" />
+        <meta name="google-site-verification" content="zd_Xa5ClyjboUC5aAq7lD1vrD_o6PyS5kl828tsDDPY" />
+        @await Html.PartialAsync("~/Views/Home/WebApp/FloatAds.cshtml")
+        @await Html.PartialAsync("~/Views/Home/WebApp/Scripts.cshtml")
+        <!-- Right Ads-->
+    </head>
+    <body class="">
+        <div class="page-body">
+            <div class="hidden-md hidden-lg opacity_menu"></div>
+            <div class="opacity_filter"></div>  
+            <div class="body_opactiy"></div>
+        
+            @await Html.PartialAsync("~/Views/Home/WebApp/Header.cshtml", Model)
+            <div class="container">
+                @RenderBody()
+            </div>
+            @await Html.PartialAsync("~/Views/Home/WebApp/Footer.cshtml", Model)
+            <!--RenderSection thêm false để sang trang khác-->
+            @await Html.PartialAsync("~/Views/Home/WebApp/Scripts2.cshtml")
+
+            @await Html.PartialAsync("~/Views/Home/WebApp/ChatbotFastAPI.cshtml")
+
+        </div>
+    </body>
+@await Html.PartialAsync("~/Views/Popup/Popup.cshtml", Model)
+</html>

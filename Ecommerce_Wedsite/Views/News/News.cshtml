@@ -1,0 +1,222 @@
+﻿@model AllLayout
+@{
+    ViewData["Title"] = "News Page";
+    Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
+}
+    <head>
+        <meta charset="utf-8">
+        <title>Bootstrap News Template - Free HTML Templates</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Bootstrap News Template - Free HTML Templates" name="keywords">
+        <meta content="Bootstrap News Template - Free HTML Templates" name="description">
+
+        <!-- Template Stylesheet -->
+        <link href="/css/news3.css" rel="stylesheet" type="text/css" media="all">
+        
+
+        <!-- Favicon -->
+        <link href="img/NewsImg/favicon.ico" rel="icon">
+
+        <!-- Google Fonts -->
+        @*<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet"> *@
+
+        <!-- CSS Libraries -->
+        @*<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">*@
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="js/slick/slick.css" rel="stylesheet">
+        <link href="js/slick/slick-theme.css" rel="stylesheet">
+
+        
+    </head>
+    <body>
+        @if (Model != null)
+        {
+        <!--Top News Start-->
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="inner">
+                    <ul class="breadcrumb">
+                        <li class="home">
+                            <a href="/"><span>Trang chủ</span></a>
+                            <span><img loading="lazy" src="//bizweb.dktcdn.net/100/364/767/themes/737174/assets/right-arrow.png?1676649124511" alt="Mew Nature"></span>
+                        </li>
+                        <li><strong><span>Danh sách tin tức</span></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class= "top-news" >
+            <div class= "container" >
+                <div class= "row" >
+                    <div class= "col-md-6 tn-left" >
+                        <div class= "row tn-slider" >
+                            @foreach (var item in Model.newscategory_ViewModels.newscate) // gọi từ controller 1 lần dùng mấy lần cũng được.
+                            {
+                                <div class= "col-md-6" >
+                                    <div class= "tn-img" >
+                                        <img style="max-height: 325px;" loading="lazy" src="@item.NewsCate_img" />
+                                        <div class= "tn-title" >
+                                            <a href="#@item.NewsCate_Name">@item.NewsCate_Name</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+@*                             <div class= "col-md-6" >
+                                <div class= "tn-img" >
+                                    <img loading="lazy" src="img/NewsImg/news-450x350-2.jpg" />
+                                    <div class= "tn-title" >
+                                        <a  href = "" > Integer hendrerit elit eget purus sodales maximus</a>
+                                    </div>
+                                </div>
+                            </div>  *@
+                        </div>
+                    </div>
+                    <div class= "col-md-6 tn-right" >
+                        <div class= "row" >
+                            @{
+                                int n = 0; // nhìn bừa nhưng đỡ viết thêm servicc.
+                            }
+                            @foreach (var item in Model.newscategory_ViewModels.newscate) // gọi từ controller 1 lần dùng mấy lần cũng được.
+                            {
+                                <div class= "col-md-6" >
+                                    <div class= "tn-img" >
+                                        <img style="max-height: 150px;" loading="lazy" src="@item.NewsCate_img" />
+                                        <div class= "tn-title">
+                                            <a href ="#@item.NewsCate_Name">@item.NewsCate_Name</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                n++;
+                                if(n == 4)
+                                {
+                                    break;
+                                }
+                            }
+                            @*  <div class= "col-md-6" >
+                                <div class= "tn-img" >
+                                    <img loading="lazy" src="img/NewsImg/news-350x223-4.jpg" />
+                                    <div class= "tn-title" >
+                                        <a href = "" > Lorem ipsum dolor sit</a>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top News End-->
+
+        <!-- Category News Start-->
+        <div class= "cat-news" >
+            <div class= "container" >
+                <div class= "row" >
+                    @foreach (var item in Model.newscategory_ViewModels.newscate)
+                    {
+                        @if (item.NewsCate_HTML == 1)
+                        {
+                            <div class="col-md-6">
+                                <h2 id="#@item.NewsCate_Name"> @item.NewsCate_Name</h2>
+                                <div class= "row cn-slider">
+                                    @foreach (var item2 in Model.listnews_ViewModels.listnews)
+                                    {
+                                        @if (item.NewsCate_Id == item2.NewsCate_Id)
+                                        {
+                                            @foreach (var item3 in Model.picture_ViewModels.picture)
+                                            {
+                                                @if (item3.Picture_Id == item2.Picture_Id)
+                                                {
+                                                    <div class= "col-md-6">
+                                                        <div class= "cn-img">
+                                                            <img loading="lazy" src="img/NewsImg/@item3.Picture_FileName" />
+                                                            <div class= "cn-title" >
+                                                                <a href="~/News/NewsDetail/?ListNews_Id=@item2.ListNews_Id"> @item2.ListNews_Title</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Category News End-->
+
+        <!-- Tab News Start-->
+        
+        <!-- Tab News Start-->
+
+        <!-- Main News Start-->
+        <div class= "main-news" >
+            <div class= "container" >
+                <div class= "row" >
+                    <div class="col-lg-9">
+                        <div class="row">
+                            @foreach (var item in Model.newscategory_ViewModels.newscate) // có thể cùng tên item miễn là không bị trồng lên nhau 
+                            {
+                                @if (item.NewsCate_HTML == 3)
+                                {
+                                    @foreach (var item2 in Model.listnews_ViewModels.listnews)
+                                    {
+                                        @if (item.NewsCate_Id == item2.NewsCate_Id)
+                                        {
+                                            <div class= "col-md-4">
+                                                <div class= "mn-img" >
+                                                    @foreach (var item3 in Model.picture_ViewModels.picture)
+                                                    {
+                                                        @if (item3.Picture_Id == item2.Picture_Id)
+                                                        {
+                                                            <img loading="lazy" src="img/NewsImg/@item3.Picture_FileName"/>
+                                                        }
+                                                    }
+                                                        <div class= "mn-title" >
+                                                        <a href="~/News/NewsDetail/?ListNews_Id=@item2.ListNews_Id">@item2.ListNews_Title</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-3"> <!--Nếu k có html = 2 thì <div> này rỗng. Tùy trường hợp có quan trọng class k-->
+                        @foreach (var item in Model.newscategory_ViewModels.newscate) // có thể cùng tên item miễn là không bị trồng lên nhau 
+                        {
+                            @if (item.NewsCate_HTML == 2)
+                            {
+                                <div class= "mn-list">
+                                    <h2> @item.NewsCate_Name</h2>
+                                    <ul>
+                                        @foreach (var item2 in Model.listnews_ViewModels.listnews)
+                                        {
+                                            @if (item.NewsCate_Id == item2.NewsCate_Id)
+                                            {
+                                                <li><a href="~/News/NewsDetail/?ListNews_Id=@item2.ListNews_Id">@item2.ListNews_Title</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="js/easing/easing.min.js"></script>
+        <script src="js/slick/slick.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/news.js"></script>
+    </body>
+        <!-- Main News End-->
+

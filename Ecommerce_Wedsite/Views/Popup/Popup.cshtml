@@ -1,0 +1,181 @@
+﻿@model AllLayout
+<link href="~/css/popup13.css" rel="stylesheet" type="text/css" media="all" />
+<link href="~/css/popupSS7.css" rel="stylesheet" type="text/css" media="all"/> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+@* <link href="~/css/popupfont.css" rel="stylesheet" type="text/css" media="all" /> *@
+<div>
+    @if(Model != null)
+    {
+        foreach(var item in Model.discountt_ViewModels.discountt)
+        {
+            <div class="bg-modal" id="bg-modal" >
+                <div class="modal-content" id="popupno" value="@item.Discount_No" style="background-image: url('/img/Picture/bkg-img4.jpg')">
+                    @* <img src="/img/Picture/bkg-img4.jpg" alt="Gift Poster" class="img-fluid" id="leftImg"> *@
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="col-left">
+                           
+                        </div>
+                    </div>
+                    <a class="popupclose" id="popupclose" href="#">+</a>
+                    <!--style: float right để chiều bđ từ phải sang trái-->
+                    <div class="col-sm-6 col-xs-12 text-center" style="width: 50%; float: right">
+                        <div class="col-right">
+                            <div id="popupranid" name="popupranid" value="@item.Discount_NewId">
+                                @{
+                                    var rate = @item.Discount_Rate * 100;
+                                }
+                                <h3 class="h2-rate">
+                                    <strong>@rate%</strong>
+                                </h3>
+                                <p id="popuprate" value="@item.Discount_Rate" class="sub-text1">
+                                    Sign up Email Here for "@item.Discount_Name" Discount
+                                </p>
+                                <p class="sub-text2">
+                                    Available Now
+                                </p>
+                            </div>
+                            <input class="popupemail" type="email" id="popupemail" name="popupemail" placeholder="any gmail.com" required />
+                            <p id="submess" class="submess"></p>
+                            <button class="buttonS" onclick="GetPopupDiscount()" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popupcontainer">
+                <div class="popupsuccess">
+                    <img src="/img/Picture/404-tick.png"/>
+                    <h2>Thank You!</h2>
+                    <h3 id="popupcode" value="@item.Discount_Code">Mã Code: <strong>@item.Discount_Code</strong></h3>
+                    <p>Voucher discount của bạn sẽ được apply cho đơn hàng gần nhất!</p>
+                    <button type="button" onclick="PopupConfirmation()">Ok</button>
+                </div>
+            </div>
+            <div class="popupcontainer-error">
+                <div class="popupsuccess">
+                    <img src="/img/Picture/404-x3.png" />
+                    <h2 style="color: orangered">
+                        Error!
+                    </h2>
+                    <p>
+                        Hết Voucher hoặc lỗi hệ thống, Vui lòng tải lại trang để thử lại!
+                    </p>
+                    <button type="button" onclick="PopupConfirmation()" style="background: orangered">Ok</button>
+                </div>
+            </div>
+        }
+    }
+    
+</div>
+    <script src="https://smtpjs.com/v3/smtp.js">
+    </script>
+    <script>   
+        var popupranid = document.getElementById("popupranid").getAttribute("value"); // random id của popup
+        var popupno = parseInt(document.getElementById("popupno").getAttribute("value")); // số lượng discount còn
+        var popuprate = document.getElementById("popuprate").getAttribute("value"); //deciaml là type float nên k parseInt đc (nên parseFloat). % discount
+        var totalprice = parseInt(document.getElementById("totalcart").getAttribute("value")); // tổng tiền thay đổi
+        var submess = document.getElementById("submess");
+        var popupcode = document.getElementById("popupcode").getAttribute("value");
+
+        window.setTimeout(function SetCookie(){ // func set time out. Thời gian đợi rồi tự chạy.
+            // if (popupno != 0) { // nếu còn mã giảm thì mới chạy popup: k còn sử dụng nên khóa lại.
+            if (getCookie('bg-modal')) { // Ktra nếu có cookie rồi:
+                if (getCookie('bg-modal') == 'false') // Ktra true hay false
+                {
+                    if (getCookie('bg-modalno') == popupranid) { // Ktra nếu vẫn là dữ liệu cũ hay mới
+                        return; // return thì nó ngưng luôn, k run code dưới
+                    }
+                    setCookie('bg-modal', 'true', 365);
+                    setCookie('bg-modalno', popupranid, 365); //add dữ liệu mới 
+                    document.querySelector('.bg-modal').style.display = 'flex';
+                    return;
+                }
+                else { // nếu true:
+                    document.querySelector('.bg-modal').style.display = 'flex';
+                }
+	        }
+            else{ // Nếu chưa có:
+                document.querySelector('.bg-modal').style.display = 'flex'; // nếu k có thì hiện lại bg
+	            setCookie('bg-modal', 'true', 365); // và cài flag cookie vào
+                setCookie('bg-modalno', popupranid, 365); // thì lưu id mới
+            }
+        }, 1000);
+
+        // Giống onclick function:
+         document.querySelector(".popupclose").addEventListener('click', 
+            function() {
+                document.querySelector('.bg-modal').style.display = 'none'; // nhấn nút tắt thì xóa bg. sau đó mới thêm cookie vô
+                setCookie('bg-modal', 'false', 365);
+                setCookie('popupdiscount', 'false', 365);
+            }
+         );
+        function sendEmail(){
+            
+        }
+        function GetPopupDiscount() {
+            var popupemail = document.getElementById("popupemail").value; //Đến lúc gõ value rồi mới lấy của email. Trước đó là rỗng
+            var popupemail2 = encodeURIComponent(popupemail);
+            var popupranid2 =  encodeURIComponent(popupranid);
+            if (popupemail2 != "" && popupemail2.includes("%40")) { // ktra có rỗng không và có email k %40. Chưa ktra dạng email valid hay k 
+                document.querySelector('.bg-modal').style.display = 'none'; // submit r thì xóa bg
+                setCookie('bg-modal', 'false', 365);
+                $.ajax({
+                    type: "GET",
+                    url: "/Discount/DiscountNumberFunction?discountranid=" + popupranid2 + "&gmail=" + popupemail,
+                    cache: !1,
+                    "async": !0,
+                    dataType: 'json',
+                    // result là kết quả return từ controller sang. success là nhận kết quả controller. Đã dùng ajax thì k có form
+                    success: function (result) { 
+                        if(result == true) {
+                            setCookie('popupdiscount', 'true', 365); // xác định xem người dùng có mã discount hay k. Nếu true
+                            setCookie('popupcode', popupcode, 365); // mã code của 
+                            document.querySelector('.popupcontainer').style.display = 'flex';
+                            Email.send({ // cần trả tiền cho tài khoản gmail https://app.elasticemail.com/marketing
+                                Host : "smtp.gmail.com",
+                                Username : "beenquan15@gmail.com",
+                                Password : "Beenquan15",
+                                To : popupemail,
+                                From : "Beenquan15.com",
+                                Subject : "You receive a big vourcher",
+                                Body : "Go back to the website and make your first purchase for " + popuprate * 100 + "%"
+                            }).then(
+                              message => alert(message)
+                            );
+                        }
+                        else{ // nếu false = hết mã
+                            setCookie('popupdiscount', 'false', 365);
+                            document.querySelector('.popupcontainer-error').style.display = 'flex';
+                        }
+                    },
+                    error: function (result) { // lỗi controller = false
+                        setCookie('popupdiscount', 'false', 365);
+                        document.querySelector('.popupcontainer-error').style.display = 'flex';
+                    }
+                });
+            }
+            else {
+                submess.textContent = "Bạn nhập sai rồi, Mời bạn nhập Gmail lại!";
+            }
+        }
+
+        function PopupConfirmation() {
+            document.querySelector('.popupcontainer').style.display = 'none';
+            document.querySelector('.popupcontainer-error').style.display = 'none';
+        }
+    </script>
+<!--Bài toán:
+     + Nếu mà có sự thay đổi trong backend - code controller, db, sql, ... thì popup này hiện lại và thay đổi dữ liệu
+    Hướng đi:
+     - Tạo 2 cookie mỗi khi người dùng vào trang:
+      + 1 cookie true/false : bật / tắt popup
+      + 1 cookie id random
+    - Tạo 1 table chứa discount:
+      + Có tên, sl, mã , trang thái id random
+    - Logic:
+      + mỗi khi có discount mới, admin add 1 discount mới nhất vào db
+      + khi này backend sẽ query discount mới nhất lên và get id random của nó
+      + Đồng thời, lấy id ramdom của người dùng (từ cookie) để so sánh với id mới
+      + Nếu k có discount mới, id = cũ => k thay đổi nội dụng popup, vẫn giữ trạng thái cờ cũ.
+      + nếu != thì ta gắn id mới vào cookie của người dùng, và đặt trạng thái cờ về lại (nếu là false) true hết.
+      + Hiện popup mới
+-->

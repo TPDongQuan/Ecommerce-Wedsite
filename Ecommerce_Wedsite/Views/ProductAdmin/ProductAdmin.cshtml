@@ -1,0 +1,191 @@
+﻿@model AllLayout
+@{
+    ViewData["Title"] = "Login Admin Page";
+    Layout = "~/Views/Shared/_LayoutAdminPage.cshtml";
+}
+<link href="/css/admintable2.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<div style ="Overflow-x:hidden">
+    <div class="card-body">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h2>Product <b>Table</b></h2>
+                </div>
+                <div class="col-sm-7">
+                    <a href="/ProductAdminCreate" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" style="max-height: 650px;">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"> <!---Tạo bảng-->
+                <thead>
+                    <!--Danh sách bảng-->
+                    <tr>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            Product Name
+                        </th>
+                        <th > 
+                            Product type ID
+                        </th>
+                        <th >
+                            Picture ID
+                        </th>
+                        <th >
+                           Logo ID
+                        </th>
+                        <th >
+                            Product price
+                        </th>
+                        <th >
+                            Product promotion price
+                        </th>
+                        <th >
+                            Product description
+                        </th>
+                        <th>
+                            Product manufactures
+                        </th>
+                        <th>
+                            Product condition
+                            
+                        </th>
+                        <th>
+                            Product information
+                        </th>
+                        <th>
+                            Product size
+                        </th>
+                        <th>
+                            Product href
+                        </th>
+                        <th>
+                            Product information 2
+                        </th>
+                        <th>
+                            Product Quantity
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                        <th>
+                            Delete
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody> 
+                    @if (Model != null) 
+                    {
+                        // có thể dùng chung viewmodel, nhưng view sẽ hiện khác nhau tùy service trong controller.
+                        var n = 100; // Tạo 1 id random riêng
+                        @foreach (var item in Model.product_ViewModels.product){
+                            n++; // mỗi lần lặp sẽ +1, gán cho id info2 => mỗi info2 có 1 id riêng. Vì chỉ 1 proid dùng cho info1 thôi.
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Product_Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_Name)</td> <!--Truyền dữ liệu xuống -->
+                                <td>@Html.DisplayFor(modelItem => item.ProductType_Id)</td>
+                                <td>  
+                                    @Html.DisplayFor(modelItem => item.Picture_Id).
+                                    <img style="width:120px; height:120px" data-img="@item.Product_Img" src="@item.Product_Img" data-lazyload="@item.Product_Img" alt="">
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Logo_Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_Price)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_PromoPrice)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_ShortDescription)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_Manufacturers)</td>
+                                <td value="@item.Product_Condition" id="ConditionBox">  
+                                    @Html.DisplayFor(modelItem => item.Product_Condition)
+                                    @{
+                                        if (item.Product_Condition == Ecommerce_Wedsite.Models.Entities.Bit4.Available) // nếu là chữ availble
+                                                {
+                                                    <input type="checkbox" id="checkbox" name="checkbox" onclick="CheckCondition(@item.Product_Id, 0)" checked> // int condition lấy số 0. Nếu char thêm ''.
+                                        }
+                                        else
+                                        {
+                                           <input type="checkbox" id="checkbox" name="checkbox" onclick="CheckCondition(@item.Product_Id, 1)">
+                                        }
+                                    }
+                                    
+                                </td>
+                                @{
+                                    // Tạm thời, tìm giải pháp khác:
+                                    if(item.Product_Info != null)
+                                    {
+                                        <td style="max-width:200px; overflow-y: hidden; max-height:100px;"><a href="#" onclick="MiniInfo(@item.Product_Id)">ReadMore</a> <div class="ReadMore" id="@item.Product_Id" style="display: none;">@Html.Raw(item.Product_Info)</div></td>
+                                    }
+                                    else
+                                    {
+                                        <td>Chưa có nội dung</td>
+                                    }
+                                }
+
+                                <td>@Html.DisplayFor(modelItem => item.Product_Size)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product_Href)</td>
+
+                                @{
+                                    if (item.Product_Info2 != null)
+                                    {
+                                        <td style="max-width:200px; overflow-y: hidden; max-height:100px;"><a href="#" onclick="MiniInfo(@n)">ReadMore</a> <div class="ReadMore" id="@n" style="display: none;">@Html.Raw(item.Product_Info2)</div></td>
+                                    }
+                                    else
+                                    {
+                                        <td>Chưa có nội dung</td>
+                                    }
+                                }
+
+                                <td>@Html.DisplayFor(modelItem => item.Product_Quantity)</td>
+                                <!--Cách chỉ gửi 1 para thôi-->
+                                <td>@Html.ActionLink("Edit", "productadminedit", new { Product_Id = item.Product_Id })</td>
+                                <td>@Html.ActionLink("Delete", "productadmindeletefunction", new { Product_Id = item.Product_Id })</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+   
+</div>
+<script>
+    function CheckCondition(itemid, itemcondition) 
+    {
+        console.log(itemid);
+        console.log(itemcondition);
+        $.ajax({
+            type: "GET",
+            url: "/ProductAdmin/ProductAdminCondition?id=" + itemid + "&condition=" + itemcondition,
+            cache: !1,
+            "async": !0,
+            success: function (a) { // a là ktra trả về từ controller.
+                window.location.reload();
+            },
+            error: function (a) {
+                alert("Thất bại");
+            }
+        });
+    }
+
+
+    function MiniInfo(id){
+        var element = document.getElementById(id);
+        console.log(element);
+        if(element.style.display != 'none'){
+            element.style.display = 'none';
+        }else {
+            element.style.display = 'block';
+        }
+    }
+</script>
+<!--
+    Cách làm Details: chưa nghĩ ra.Chatgpt đã có
+    - Lấy xẵn 
+-->
+
+

@@ -1,0 +1,149 @@
+﻿@model AllLayout
+@{
+    ViewData["Title"] = "Header Admin Page";
+    Layout = "~/Views/Shared/_LayoutAdminPage.cshtml";
+}
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <a class="nav-link active ms-0" href="#" target="__blank">Profile</a>
+        <a class="nav-link" href="#" target="__blank">Billing</a>
+        <a class="nav-link" href="#" target="__blank">Security</a>
+        <a class="nav-link" href="#"  target="__blank">Notifications</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Details</div>
+                <div class="card-body">
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model.header_ViewModels.header)
+                        {
+                            <div>
+                                <!-- Form Group (username)-->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="Header_Id">Header Id</label>
+                                    <input class="form-control" id="Header_Id" name="Header_Id" type="tel" placeholder="Header_Id" value="@item.Header_Id" readonly>
+                                </div>
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (first name)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="Header_Title">Header Title</label>
+                                        <input class="form-control" id="Header_Title" name="Header_Title" type="text"  placeholder="Header_Title" value="@item.Header_Title" required>
+                                    </div>
+                                    <!-- Form Group (last name)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="HeaderCondition">Header Condition</label>
+                                        <input class="form-control" id="HeaderCondition" name="HeaderCondition" type="tel"  placeholder="HeaderCondition" value="@item.HeaderCondition" required>
+                                    </div>
+                                </div>
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                   @*  <!-- Form Group (organization name)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="HeaderParent_Id">Header Parent Id</label>
+                                        <input class="form-control" id="HeaderParent_Id" name="HeaderParent_Id" type="tel" placeholder="HeaderParent_Id" value="@item.HeaderParent_Id" required>
+                                    </div>
+                                    <!-- Form Group (location)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="HeaderLevels">Header Level</label>
+                                        <input class="form-control" id="HeaderLevels" name="HeaderLevels" type="tel" placeholder="HeaderLevels" value="@item.HeaderLevels" required>
+                                    </div> *@
+                                </div>
+                                @*<!-- Form Group (email address)-->
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                                        <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="name@example.com">
+                                    </div>
+                                *@
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="HeaderType_Id">Header Type Id</label>
+                                        <input class="form-control" id="HeaderType_Id" type="tel" placeholder="HeaderType_Id" value="@item.HeaderType_Id" required>
+                                    </div>
+                                    <!-- Form Group (birthday)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="HeaderAction">Header Action</label>
+                                        <input class="form-control" id="HeaderAction" type="text" name="HeaderAction" placeholder="HeaderAction" value="@item.HeaderAction" required>
+                                    </div>
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="Header_HTML">Header HTML TYPE ID</label>
+                                        <input class="form-control" id="Header_HTML" type="tel" placeholder="Header_HTML" value="@item.Header_HTML" required>
+                                    </div>
+                                    <!-- Form Group (birthday)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="Header_Order">Header Order</label>
+                                        <input class="form-control" id="Header_Order" type="text" name="Header_Order" placeholder="Header_Order" value="@item.Header_Order" required>
+                                    </div>
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="Header_Summary">Header Summary</label>
+                                        <input class="form-control" id="Header_Summary" type="tel" placeholder="Header_Summary" value="@item.Header_Summary" required>
+                                    </div>
+                                    <!-- Form Group (birthday)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="Header_Img">Header Image</label>
+                                        <input class="form-control" id="Header_Img" type="text" name="Header_Img" placeholder="Header_Img" value="@item.Header_Img" required>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="pagename" value="@ViewData["Title"]" name="pagename">
+                                   <!-- Save changes button-->
+                                <input id="button_1" onclick="Editlog()" type="button" value="Save Edit" class="btn btn-primary rounded submit p-3 px-5"/>
+                                
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<script>
+	function Editlog() {
+        var pagename = document.getElementById('pagename').value;
+        $.ajax({
+            url: "HeaderAdmin/HeaderAdminEditFunction",
+            dataType: "json",
+            type: "POST",
+            data: {
+                Header_Id: $('#Header_Id').val(),
+                Header_Title: $('#Header_Title').val(),
+                HeaderCondition: $('#HeaderCondition').val(),
+                HeaderParent_Id: $('#HeaderParent_Id').val(),
+                HeaderLevels: $('#HeaderLevels').val(),
+                HeaderType_Id: $('#HeaderType_Id').val(),
+                HeaderAction: $('#HeaderAction').val(),
+                Header_HTML: $('#Header_HTML').val(),
+                Header_Order: $('#Header_Order').val(),
+                Header_Summary: $('#Header_Summary').val(),
+                Header_Img: $('#Header_Img').val(),
+                pagename: pagename
+            },
+            cache: !1,
+            success:
+            function(result) {
+                if (result === true) {
+                    window.location = 'https://localhost:7037/headeradmin';
+                }
+                else {
+                    alert("Thất bại");
+                    window.location = 'https://localhost:7037/headeradminedit'; // nếu false thì về lại trang login
+                }
+            }
+        });
+    };
+</script>
+
+

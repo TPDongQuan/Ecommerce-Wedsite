@@ -1,0 +1,71 @@
+﻿@model AllLayout
+@{
+    ViewData["Title"] = "Discount Admin Page";
+    Layout = "~/Views/Shared/_LayoutAdminPage.cshtml";
+}
+<link href="~/css/crud2.css" rel="stylesheet" type="text/css">
+<link href="/css/admintable2.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h2>Discount <b>Table</b></h2>
+                        </div>
+                        <div class="col-sm-7">
+                            <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New</span></a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered" id="dataTable">
+                    <thead> <!--Danh sách bảng-->
+                        <tr>
+                            <th>
+                                Discount ID
+                            </th>
+                            <th>
+                               Discount Rate 
+                            </th>
+                            <th>
+                               Discount Number
+                            </th>
+                            <th>
+                               Discount Random ID
+                            </th>
+                            <th>
+                               Discount Name
+                            </th>
+                            <th>
+                               Edit
+                            </th>
+                            <th>
+                               Delete
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody> 
+                        @if (Model != null) 
+                        {
+                            @foreach (var item in Model.discountt_ViewModels.discountt){ 
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Discount_Id)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Discount_Rate)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Discount_No)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Discount_RanId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Discount_Name)</td>
+                                    <td>@Html.ActionLink("Edit", "discountadminedit", item) <i class="material-icons">&#xE8B8;</i></td>
+                                    <td>@Html.ActionLink("Delete", "discountadmindelete", item) <i class="material-icons">&#xE5C9;</i></td>
+                                    <!--Tao controller hay service cho edit va delete-->
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
